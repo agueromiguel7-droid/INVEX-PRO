@@ -53,6 +53,18 @@ def inyectar_css():
         </style>
     """, unsafe_allow_html=True)
 
+def ocultar_sidebar():
+    st.markdown("""
+        <style>
+            [data-testid="collapsedControl"] {
+                display: none;
+            }
+            [data-testid="stSidebar"] {
+                display: none;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
 from streamlit_gsheets import GSheetsConnection
 import bcrypt
 import pandas as pd
@@ -141,6 +153,7 @@ def main():
         st.session_state["logged_in"] = False
 
     if not st.session_state["logged_in"]:
+        ocultar_sidebar()
         # Si no esta loggeado, usar st.navigation unicamente con la pagina de login
         login_pg = st.Page(login, title="Acceder a Invex Pro", icon="🔐")
         pg = st.navigation([login_pg])

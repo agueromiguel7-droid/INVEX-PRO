@@ -157,14 +157,14 @@ def main():
     pages = []
     
     # Paginas para Inversor (y Admin)
-    pages.append(st.Page("pages/1_Galeria_de_Inversiones.py", title="Galería de Inversiones", icon="📊"))
-    pages.append(st.Page("pages/4_Analisis_Comparativo.py", title="Análisis Comparativo", icon="📈"))
+    pages.append(st.Page("views/1_Galeria_de_Inversiones.py", title="Galería de Inversiones", icon="📊"))
+    pages.append(st.Page("views/4_Analisis_Comparativo.py", title="Análisis Comparativo", icon="📈"))
     # Registrar pagina de detalles ocultandola del menu principal (icon y title default)
-    pages.append(st.Page("pages/3_Detalle_Proyecto.py", title="Detalle de Proyecto", icon="📑"))
+    pages.append(st.Page("views/3_Detalle_Proyecto.py", title="Detalle de Proyecto", icon="📑"))
     
     # Paginas exclusivas de Admin
     if st.session_state["role"] == "admin":
-        pages.append(st.Page("pages/2_Gestor_de_Proyectos.py", title="Gestor de Proyectos", icon="🛠️"))
+        pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title="Gestor de Proyectos", icon="🛠️"))
     
     # Renderizar el menu lateral
     pg = st.navigation(pages)

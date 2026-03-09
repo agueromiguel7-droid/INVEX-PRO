@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="Invex Pro",
     page_icon="mi_logo.png",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Estilos CSS Corporativos (Inspirados en Stitch)
@@ -141,29 +141,31 @@ def main():
         st.session_state["logged_in"] = False
 
     if not st.session_state["logged_in"]:
-        login()
+        # Si no esta loggeado, usar st.navigation unicamente con la pagina de login
+        login_pg = st.Page(login, title="Acceder a Invex Pro", icon="🔐")
+        pg = st.navigation([login_pg])
+        pg.run()
         return
         
-    # Navegacion condicional
+    # Navegacion condicional (Usuario loggeado)
     st.sidebar.title("Invex Pro")
     if os.path.exists("mi_logo.png"):
         c1, c2, c3 = st.sidebar.columns([1, 3, 1])
         with c2:
             st.image("mi_logo.png", use_container_width=True)
         
-    st.sidebar.write(f"Bienvenido, **{st.session_state['name']}**")
+    st.sidebar.write(f"Bienvenido, **{st.session_state.get('name', '')}**")
     
-    # Declarar paginas disponibles (El routing nuevo de Streamlit 1.31+ usando `st.navigation`)
+    # Declarar paginas disponibles
     pages = []
     
     # Paginas para Inversor (y Admin)
     pages.append(st.Page("views/1_Galeria_de_Inversiones.py", title="Galería de Inversiones", icon="📊"))
     pages.append(st.Page("views/4_Analisis_Comparativo.py", title="Análisis Comparativo", icon="📈"))
-    # Registrar pagina de detalles ocultandola del menu principal (icon y title default)
     pages.append(st.Page("views/3_Detalle_Proyecto.py", title="Detalle de Proyecto", icon="📑"))
     
     # Paginas exclusivas de Admin
-    if st.session_state["role"] == "admin":
+    if st.session_state.get("role") == "admin":
         pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title="Gestor de Proyectos", icon="🛠️"))
     
     # Renderizar el menu lateral
@@ -172,6 +174,7 @@ def main():
     # Boton de logout
     if st.sidebar.button("Cerrar Sesión"):
         st.session_state["logged_in"] = False
+        st.session_state.clear() # Limpiamos toda la sesion
         st.rerun()
         
     # Ejecutar la pagina seleccionada

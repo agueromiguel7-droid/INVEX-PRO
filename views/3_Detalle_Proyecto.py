@@ -56,7 +56,7 @@ st.markdown("""
 if "proyecto_seleccionado" not in st.session_state:
     st.warning("Por favor, seleccione un proyecto desde la Galería de Inversiones.")
     if st.button("Volver a Galería"):
-        st.switch_page("pages/1_Galeria_de_Inversiones.py")
+        st.switch_page("views/1_Galeria_de_Inversiones.py")
     st.stop()
 
 project_id = st.session_state["proyecto_seleccionado"]
@@ -80,7 +80,7 @@ row = proyecto.iloc[0]
 
 # --- Boton Volver Header ---
 if st.button("⬅️ Atrás a la Galería"):
-    st.switch_page("pages/1_Galeria_de_Inversiones.py")
+    st.switch_page("views/1_Galeria_de_Inversiones.py")
     
 # --- Encabezado Tipo Hero (Stitch) ---
 # Intentar usar la imagen de fondo tipo banner si existe

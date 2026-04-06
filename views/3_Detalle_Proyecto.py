@@ -94,7 +94,7 @@ if img_path and os.path.exists(img_path):
         <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2));"></div>
         <div style="position: absolute; bottom: 20px; left: 20px; color: white;">
             <span style="background-color: #144bb8; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; display: inline-block;">{str(row.get('Sector / Industria', 'PROJECT')).upper()}</span>
-            <h1 style="color: white; margin: 0; font-size: 2.5rem; line-height: 1.1;">{row.get('Nombre de la oportunidad', 'Sin Título')}</h1>
+            <div style="color: #f8f9fa; margin: 0; font-size: 2.5rem; line-height: 1.1; font-weight: bold; font-family: 'Inter', sans-serif;">{row.get('Nombre de la oportunidad', 'Sin Título')}</div>
             <p style="margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.9;">📍 {row.get('Ubicación (Región – Ciudad)', 'N/A')} | 🏷️ {row.get('Tipo de oportunidad', 'N/A')}</p>
         </div>
     </div>

@@ -5,8 +5,11 @@ import data_manager as dm
 import plotly.graph_objects as go
 import os
 import base64
+import i18n
 
-st.set_page_config(page_title="Detalles de Proyecto", page_icon="📑", layout="wide")
+lang = st.session_state.get("language", "es")
+
+st.set_page_config(page_title=i18n.t("Detalle de Proyecto", lang), page_icon="📑", layout="wide")
 
 # --- Inyeccion de CSS para Mimetizar a Stitch ---
 # Basado en la captura: tarjetas blancas con sombra, texto sutil, metricas grandes azules/oscuras, y badges redondeados.
@@ -54,15 +57,16 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if "proyecto_seleccionado" not in st.session_state:
-    st.warning("Por favor, seleccione un proyecto desde la Galería de Inversiones.")
-    if st.button("Volver a Galería"):
+    st.warning(i18n.t("Debe seleccionar un proyecto desde la galería de inversiones.", lang))
+    if st.button(i18n.t("Volver a la Galería", lang)):
         st.switch_page("views/1_Galeria_de_Inversiones.py")
     st.stop()
 
 project_id = st.session_state["proyecto_seleccionado"]
 
 # Cargar datos
-df = dm.load_data()
+raw_df = dm.load_data()
+df = i18n.translate_df(raw_df, lang)
 if df.empty:
     st.error("Error al cargar la base de datos.")
     st.stop()
@@ -79,7 +83,7 @@ if proyecto.empty:
 row = proyecto.iloc[0]
 
 # --- Boton Volver Header ---
-if st.button("⬅️ Atrás a la Galería"):
+if st.button(i18n.t("Volver a la Galería", lang)):
     st.switch_page("views/1_Galeria_de_Inversiones.py")
     
 # --- Encabezado Tipo Hero (Stitch) ---

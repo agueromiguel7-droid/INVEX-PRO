@@ -2,23 +2,26 @@
 import streamlit as st
 import pandas as pd
 import data_manager as dm
+import i18n
 
-st.set_page_config(page_title="Gestor de Proyectos", page_icon="🛠️", layout="wide")
+lang = st.session_state.get("language", "es")
+
+st.set_page_config(page_title=i18n.t("Gestor de Proyectos", lang), page_icon="🛠️", layout="wide")
 
 # Validacion de seguridad RBAC
 if "role" not in st.session_state or st.session_state["role"] != "admin":
     st.error("Acceso denegado. No tienes permisos para ver esta página.")
     st.stop()
 
-st.title("🛠️ Gestor de Proyectos")
-st.markdown("Agrega nuevas oportunidades de inversión al portafolio de Invex Pro.")
+st.title(i18n.t("🛠️ Gestor de Proyectos", lang))
+st.markdown(i18n.t("Panel de administración para agregar o actualizar oportunidades de inversión.", lang))
 
 # Cargar datos
 df = dm.load_data()
 
 # --- Formulario de Nuevo Proyecto ---
 with st.form("nuevo_proyecto_form", clear_on_submit=True):
-    st.subheader("Datos Básicos")
+    st.subheader(i18n.t("Crear Nuevo Proyecto", lang))
     col1, col2 = st.columns(2)
     with col1:
         nombre = st.text_input("Nombre de la oportunidad*", max_chars=100)
@@ -79,10 +82,10 @@ with st.form("nuevo_proyecto_form", clear_on_submit=True):
         s_gas = st.text_input("Gas")
 
     st.markdown("---")
-    st.subheader("Archivo Multimedia")
-    imagen = st.file_uploader("Sube una imagen representativa del proyecto (JPG/PNG)", type=["jpg", "jpeg", "png"])
+    st.subheader(i18n.t("Imagen del Proyecto", lang))
+    imagen = st.file_uploader(i18n.t("Subir archivo", lang), type=["jpg", "jpeg", "png"])
 
-    submitted = st.form_submit_button("Guardar Proyecto Nuevo", use_container_width=True)
+    submitted = st.form_submit_button(i18n.t("Guardar Proyecto", lang), use_container_width=True)
     
     if submitted:
         if not nombre or not sector or not ubicacion or not st.session_state.resumen:

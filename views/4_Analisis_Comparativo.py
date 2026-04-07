@@ -5,17 +5,21 @@ import plotly.express as px
 import plotly.graph_objects as go
 import data_manager as dm
 import re
+import i18n
 
-st.set_page_config(page_title="Análisis Comparativo", page_icon="📈", layout="wide")
+lang = st.session_state.get("language", "es")
 
-st.title("📈 Análisis Comparativo y Priorización")
-st.markdown("Visualiza y compara el portafolio actual de oportunidades de inversión jerarquizado por Riesgo, Valor Presente Neto (VPN) y Rentabilidad (TIR).")
+st.set_page_config(page_title=i18n.t("Análisis Comparativo", lang), page_icon="📈", layout="wide")
+
+st.title(i18n.t("📈 Análisis Comparativo y Priorización", lang))
+st.markdown(i18n.t("Visualiza y compara el portafolio actual de oportunidades de inversión jerarquizado por Riesgo, Valor Presente Neto (VPN) y Rentabilidad (TIR).", lang))
 
 # Cargar Datos
-df = dm.load_data()
+raw_df = dm.load_data()
+df = i18n.translate_df(raw_df, lang)
 
 if df.empty:
-    st.error("No hay datos disponibles en el portafolio para realizar el análisis comparativo.")
+    st.error(i18n.t("No hay datos disponibles en el portafolio para realizar el análisis comparativo.", lang))
     st.stop()
 
 # --- Funciones de limpieza de datos ---
@@ -61,31 +65,31 @@ plot_df['TIR_Num'] = plot_df['TIR (%)'].apply(lambda x: parse_numeric(x, 'avg'))
 # Normalizar texto de riesgos para categorizar
 def normalize_risk(r):
     r_str = str(r).strip().lower()
-    if 'alto' in r_str or 'crítico' in r_str or 'high' in r_str: return 'Alto / Crítico'
-    if 'medio' in r_str or 'medium' in r_str: return 'Medio'
-    if 'bajo' in r_str or 'low' in r_str: return 'Bajo'
-    return 'No Definido'
+    if 'alto' in r_str or 'crítico' in r_str or 'high' in r_str: return i18n.t('Alto / Crítico', lang)
+    if 'medio' in r_str or 'medium' in r_str: return i18n.t('Medio', lang)
+    if 'bajo' in r_str or 'low' in r_str: return i18n.t('Bajo', lang)
+    return i18n.t('No Definido', lang)
 
 plot_df['Riesgo_Cat'] = plot_df['Nivel de riesgo global'].apply(normalize_risk)
 
-# Paleta de colores para los riesgos
+# Paleta de colores para los riesgos (necesita las llaves traducidas)
 color_discrete_map = {
-    'Bajo': '#10b981',           # verde
-    'Medio': '#f59e0b',          # naranja/amarillo
-    'Alto / Crítico': '#ef4444', # rojo
-    'No Definido': '#94a3b8'     # gris
+    i18n.t('Bajo', lang): '#10b981',           # verde
+    i18n.t('Medio', lang): '#f59e0b',          # naranja/amarillo
+    i18n.t('Alto / Crítico', lang): '#ef4444', # rojo
+    i18n.t('No Definido', lang): '#94a3b8'     # gris
 }
 
 # Orden lógico del eje X para los riesgos
-category_orders = {"Riesgo_Cat": ["Bajo", "Medio", "Alto / Crítico", "No Definido"]}
+category_orders = {"Riesgo_Cat": [i18n.t("Bajo", lang), i18n.t("Medio", lang), i18n.t("Alto / Crítico", lang), i18n.t("No Definido", lang)]}
 
 # --- Renderización de Gráficos ---
 
-tab1, tab2, tab3 = st.tabs(["📊 VPN vs Riesgo", "📈 TIR vs Riesgo", "🎯 Matriz de Priorización (TIR vs VPN)"])
+tab1, tab2, tab3 = st.tabs([i18n.t("📊 VPN vs Riesgo", lang), i18n.t("📈 TIR vs Riesgo", lang), i18n.t("🎯 Matriz de Priorización (TIR vs VPN)", lang)])
 
 with tab1:
-    st.subheader("Valor Presente Neto (VPN) por Perfil de Riesgo")
-    st.markdown("El tamaño de la burbuja representa el Monto Estimado de Inversión (MMUSD).")
+    st.subheader(i18n.t("Valor Presente Neto (VPN) por Perfil de Riesgo", lang))
+    st.markdown(i18n.t("El tamaño de la burbuja representa el Monto Estimado de Inversión (MMUSD).", lang))
     
     fig_vpn = px.scatter(
         plot_df, 
@@ -102,10 +106,10 @@ with tab1:
             "Sector / Industria": True
         },
         labels={
-            "VPN_Num": "Valor Presente Neto (MMUSD)",
-            "Riesgo_Cat": "Nivel de Riesgo Global",
-            "Inversion_Num": "Inversión (MMUSD)",
-            "TIR_Num": "TIR (%)"
+            "VPN_Num": i18n.t("Valor Presente Neto (MMUSD)", lang),
+            "Riesgo_Cat": i18n.t("Nivel de Riesgo Global", lang),
+            "Inversion_Num": i18n.t("Inversión (MMUSD)", lang),
+            "TIR_Num": i18n.t("TIR (%)", lang)
         },
         color_discrete_map=color_discrete_map,
         category_orders=category_orders,
@@ -122,8 +126,8 @@ with tab1:
     st.plotly_chart(fig_vpn, use_container_width=True)
 
 with tab2:
-    st.subheader("Tasa Interna de Retorno (TIR) por Perfil de Riesgo")
-    st.markdown("El tamaño de la burbuja representa el Monto Estimado de Inversión (MMUSD).")
+    st.subheader(i18n.t("Tasa Interna de Retorno (TIR) por Perfil de Riesgo", lang))
+    st.markdown(i18n.t("El tamaño de la burbuja representa el Monto Estimado de Inversión (MMUSD).", lang))
     
     fig_tir = px.scatter(
         plot_df, 
@@ -140,10 +144,10 @@ with tab2:
             "Sector / Industria": True
         },
         labels={
-            "TIR_Num": "TIR Esperada (%)",
-            "Riesgo_Cat": "Nivel de Riesgo Global",
-            "Inversion_Num": "Inversión (MMUSD)",
-            "VPN_Num": "VPN (MMUSD)"
+            "TIR_Num": i18n.t("TIR Esperada (%)", lang),
+            "Riesgo_Cat": i18n.t("Nivel de Riesgo Global", lang),
+            "Inversion_Num": i18n.t("Inversión (MMUSD)", lang),
+            "VPN_Num": i18n.t("VPN (MMUSD)", lang)
         },
         color_discrete_map=color_discrete_map,
         category_orders=category_orders,
@@ -160,8 +164,8 @@ with tab2:
     st.plotly_chart(fig_tir, use_container_width=True)
 
 with tab3:
-    st.subheader("Matriz de Atractividad: Rentabilidad vs Valor")
-    st.markdown("Proyectos en el **cuadrante superior derecho** (Alta TIR, Alto VPN) representan las oportunidades más atractivas. El color indica su nivel de riesgo.")
+    st.subheader(i18n.t("Matriz de Atractividad: Rentabilidad vs Valor", lang))
+    st.markdown(i18n.t("Proyectos en el **cuadrante superior derecho** (Alta TIR, Alto VPN) representan las oportunidades más atractivas. El color indica su nivel de riesgo.", lang))
     
     # Calcular promedios para trazar las líneas divisorias de los cuadrantes
     promedio_tir = plot_df['TIR_Num'].mean()
@@ -181,9 +185,9 @@ with tab3:
             "VPN_Num": ':.2f'
         },
         labels={
-            "VPN_Num": "Valor Presente Neto Promedio (MMUSD)",
-            "TIR_Num": "Tasa Interna de Retorno (%)",
-            "Riesgo_Cat": "Riesgo Global"
+            "VPN_Num": i18n.t("Valor Presente Neto Promedio (MMUSD)", lang),
+            "TIR_Num": i18n.t("Tasa Interna de Retorno (%)", lang),
+            "Riesgo_Cat": i18n.t("Riesgo Global", lang)
         },
         color_discrete_map=color_discrete_map,
         size_max=35,
@@ -197,7 +201,7 @@ with tab3:
     # Anotaciones de los cuadrantes
     fig_matrix.add_annotation(
         x=plot_df['VPN_Num'].max(), y=plot_df['TIR_Num'].max(),
-        text="Alta Prioridad",
+        text=i18n.t("Alta Prioridad", lang),
         showarrow=False, font=dict(color="green", size=12), opacity=0.7,
         xanchor="right", yanchor="top"
     )
@@ -210,6 +214,15 @@ with tab3:
 
 # Footer con listado rápido
 st.markdown("---")
-st.markdown("### 📋 Resumen Tabular")
+st.markdown(i18n.t("### 📋 Resumen Tabular", lang))
+
+# Translate the columns for tabular summary
+translated_cols = [i18n.t(col, lang) for col in df.columns]
+
+# Display data mapping back to original columns for extraction
 display_cols = ["ID_Proyecto", "Nombre de la oportunidad", "Sector / Industria", "Nivel de riesgo global", "TIR (%)", "VPN (MMUSD)", "Monto de inversión estimado (MMUSD)"]
-st.dataframe(df[display_cols], use_container_width=True, hide_index=True)
+
+df_display = df[display_cols].copy()
+df_display.columns = [i18n.t(c, lang) for c in display_cols]
+
+st.dataframe(df_display, use_container_width=True, hide_index=True)

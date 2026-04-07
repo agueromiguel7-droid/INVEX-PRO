@@ -2,30 +2,34 @@
 import streamlit as st
 import pandas as pd
 import data_manager as dm
+import i18n
 
-st.set_page_config(page_title="Galería de Inversiones", page_icon="📊", layout="wide")
+lang = st.session_state.get("language", "es")
 
-st.title("📊 Portafolio de Inversiones")
-st.markdown("Explora las oportunidades de inversión disponibles.")
+st.set_page_config(page_title=i18n.t("Galería de Inversiones", lang), page_icon="📊", layout="wide")
+
+st.title(i18n.t("📊 Portafolio de Inversiones", lang))
+st.markdown(i18n.t("Explora las oportunidades de inversión disponibles.", lang))
 
 # Cargar datos
-df = dm.load_data()
+raw_df = dm.load_data()
+df = i18n.translate_df(raw_df, lang)
 
 if df.empty:
-    st.info("No hay proyectos cargados actualmente en la base de datos.")
+    st.info(i18n.t("No hay proyectos cargados actualmente en la base de datos.", lang))
     st.stop()
 
 # --- Zona de Filtros ---
-st.markdown("### Filtros")
+st.markdown(i18n.t("### Filtros", lang))
 col_f1, col_f2, col_f3 = st.columns(3)
 
 with col_f1:
-    sectores = ["Todos"] + sorted(df["Sector / Industria"].dropna().unique().tolist())
-    sector_sel = st.selectbox("Sector / Industria", sectores)
+    sectores = [i18n.t("Todos", lang)] + sorted(df["Sector / Industria"].dropna().unique().tolist())
+    sector_sel = st.selectbox(i18n.t("Sector / Industria", lang), sectores)
 
 with col_f2:
-    tipos = ["Todos"] + sorted(df["Tipo de oportunidad"].dropna().unique().tolist())
-    tipo_sel = st.selectbox("Tipo de oportunidad", tipos)
+    tipos = [i18n.t("Todos", lang)] + sorted(df["Tipo de oportunidad"].dropna().unique().tolist())
+    tipo_sel = st.selectbox(i18n.t("Tipo de oportunidad", lang), tipos)
 
 with col_f3:
     # Extraer el primer numero de la cadena (para soportar rangos de texto como "4 a 6" o "25 - 45")
@@ -40,7 +44,7 @@ with col_f3:
     if min_inv == max_inv:
         min_inv = 0.0
         
-    monto_sel = st.slider("Rango de Inversión (MMUSD)", 
+    monto_sel = st.slider(i18n.t("Rango de Inversión (MMUSD)", lang), 
                           min_value=min_inv, 
                           max_value=max_inv, 
                           value=(min_inv, max_inv))
@@ -48,10 +52,10 @@ with col_f3:
 # --- Aplicar Filtros ---
 df_filtrado = df.copy()
 
-if sector_sel != "Todos":
+if sector_sel != i18n.t("Todos", lang):
     df_filtrado = df_filtrado[df_filtrado["Sector / Industria"] == sector_sel]
     
-if tipo_sel != "Todos":
+if tipo_sel != i18n.t("Todos", lang):
     df_filtrado = df_filtrado[df_filtrado["Tipo de oportunidad"] == tipo_sel]
     
 df_filtrado = df_filtrado[
@@ -60,8 +64,8 @@ df_filtrado = df_filtrado[
 ]
 
 # --- Mostrar Galeria ---
-st.markdown("### Resultados")
-st.write(f"Mostrando {len(df_filtrado)} proyecto(s)")
+st.markdown(i18n.t("### Resultados", lang))
+st.write(f"{i18n.t('Mostrando', lang)} {len(df_filtrado)} {i18n.t('proyecto(s)', lang)}")
 
 # Crear un grid de cuadriculas (ej. 3 por fila)
 cards_per_row = 3
@@ -83,23 +87,23 @@ if not df_filtrado.empty:
                     if img_path:
                         st.image(img_path, use_container_width=True)
                     else:
-                        st.markdown("<div style='height: 150px; background-color: #f0f2f6; display: flex; align-items: center; justify-content: center; color: #a0aab2;'>Sin Imagen</div>", unsafe_allow_html=True)
+                        st.markdown(f"<div style='height: 150px; background-color: #f0f2f6; display: flex; align-items: center; justify-content: center; color: #a0aab2;'>{i18n.t('Sin Imagen', lang)}</div>", unsafe_allow_html=True)
                     
                     # Datos
-                    st.markdown(f"#### {row.get('Nombre de la oportunidad', 'Sin Título')}")
+                    st.markdown(f"#### {row.get('Nombre de la oportunidad', i18n.t('Sin Título', lang))}")
                     st.caption(f"📍 {row.get('Ubicación (Región – Ciudad)', 'N/A')}")
-                    st.markdown(f"**Sector:** {row.get('Sector / Industria', 'N/A')}")
-                    st.markdown(f"**Inversión Est.:** ${row.get('Monto de inversión estimado (MMUSD)', 0)} MMUSD")
+                    st.markdown(f"{i18n.t('**Sector:**', lang)} {row.get('Sector / Industria', 'N/A')}")
+                    st.markdown(f"{i18n.t('**Inversión Est.:**', lang)} ${row.get('Monto de inversión estimado (MMUSD)', 0)} MMUSD")
                     
                     tir = row.get('TIR (%)', 'N/A')
                     if pd.notna(tir):
-                        st.markdown(f"**TIR:** {tir}%")
+                        st.markdown(f"{i18n.t('**TIR:**', lang)} {tir}%")
                     
                     # Boton para ver detalle
-                    if st.button("Ver Detalle Ficha", key=f"btn_det_{project_id}", use_container_width=True):
+                    if st.button(i18n.t("Ver Detalle Ficha", lang), key=f"btn_det_{project_id}", use_container_width=True):
                         st.session_state["proyecto_seleccionado"] = project_id
                         st.switch_page("views/3_Detalle_Proyecto.py")
                         
                     st.markdown("</div>", unsafe_allow_html=True)
 else:
-    st.info("Ningún proyecto coindice con los filtros.")
+    st.info(i18n.t("Ningún proyecto coindice con los filtros.", lang))

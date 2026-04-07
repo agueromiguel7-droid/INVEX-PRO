@@ -50,18 +50,19 @@ def inyectar_css():
             box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
             opacity: 0.9 !important;
         }
+        
+        /* Ajuste para que los links de navegacion se vean bien */
+        [data-testid="stSidebarNav"] {
+            display: none;
+        }
         </style>
     """, unsafe_allow_html=True)
 
 def ocultar_sidebar():
     st.markdown("""
         <style>
-            [data-testid="collapsedControl"] {
-                display: none;
-            }
-            [data-testid="stSidebar"] {
-                display: none;
-            }
+            [data-testid="collapsedControl"] { display: none; }
+            [data-testid="stSidebar"] { display: none; }
         </style>
     """, unsafe_allow_html=True)
 
@@ -106,7 +107,6 @@ def login():
                     
                     # 1. Verificar si está activo
                     is_active_raw = str(user_record.get('active', '')).strip().upper()
-                    # Aceptar como verdadero variaciones comunes en Google Sheets (incluída 'VADERO', 'SI', '1.0')
                     if not (is_active_raw in ['TRUE', '1', '1.0', 'YES', 'SÍ', 'SI', 'VERDADERO']):
                         st.error("Este usuario se encuentra inactivo.")
                         return
@@ -124,7 +124,7 @@ def login():
                                 st.error("Su acceso ha expirado.")
                                 return
                         except Exception:
-                            pass # Tratar de continuar si el formato de la fecha es inválido
+                            pass
                             
                     # 3. Verificar contraseña cifrada
                     stored_hash = str(user_record.get('password_hash', '')).strip()
@@ -132,7 +132,6 @@ def login():
                     try:
                         is_valid_pwd = bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8'))
                     except ValueError:
-                        # Ocurre si el stored_hash no tiene el formato de bcrypt válido
                         st.error("Error estructural en la contraseña de la base de datos.")
                         return
                         
@@ -153,7 +152,6 @@ def main():
     # Inicializar el estado de sesion
     if "logged_in" not in st.session_state:
         st.session_state["logged_in"] = False
-        
     if "language" not in st.session_state:
         st.session_state["language"] = "es"
         
@@ -161,22 +159,12 @@ def main():
 
     if not st.session_state["logged_in"]:
         ocultar_sidebar()
-        # Si no esta loggeado, usar st.navigation unicamente con la pagina de login
         login_pg = st.Page(login, title=i18n.t("Acceso a Invex Pro", lang), icon="🔐")
-        pg = st.navigation([login_pg])
+        pg = st.navigation([login_pg], position="hidden")
         pg.run()
         return
         
-    # 1. Logo and App Name at the TOP
-    if os.path.exists("mi_logo.png"):
-        cl1, cl2, cl3 = st.sidebar.columns([0.2, 0.6, 0.2])
-        with cl2:
-            st.image("mi_logo.png", use_container_width=True)
-    
-    st.sidebar.markdown(f"<h1 style='text-align: center; color: #144bb8; font-size: 1.8rem; margin-top: -10px;'>{i18n.t('Invex Pro', lang)}</h1>", unsafe_allow_html=True)
-    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 0.5rem 0 1rem 0;'>", unsafe_allow_html=True)
-
-    # 2. Navegación (Menu de paginas)
+    # Navegacion condicional (Usuario loggeado)
     pages = [
         st.Page("views/1_Galeria_de_Inversiones.py", title=i18n.t("Galería de Inversiones", lang), icon="📊"),
         st.Page("views/4_Analisis_Comparativo.py", title=i18n.t("Análisis Comparativo", lang), icon="📈"),
@@ -186,12 +174,27 @@ def main():
     if st.session_state.get("role") == "admin":
         pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title=i18n.t("Gestor de Proyectos", lang), icon="🛠️"))
     
-    pg = st.navigation(pages)
+    # IMPORTANTE: Usamos position="hidden" para ocultar el menu automatico y hacerlo manualmente
+    pg = st.navigation(pages, position="hidden")
     
-    # Separador 2: Debajo de la navegación y ARRIBA del selector de idioma
+    # --- RENDERIZADO MANUAL DE LA BARRA LATERAL ---
+    
+    # 1. LOGO Y NOMBRE AL TOPE (GARANTIZADO)
+    if os.path.exists("mi_logo.png"):
+        c1, c2, c3 = st.sidebar.columns([0.2, 0.6, 0.2])
+        with c2:
+            st.image("mi_logo.png", use_container_width=True)
+    
+    st.sidebar.markdown(f"<h1 style='text-align: center; color: #144bb8; font-size: 1.8rem; margin-top: -10px; margin-bottom: 0;'>{i18n.t('Invex Pro', lang)}</h1>", unsafe_allow_html=True)
+    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 0.5rem 0 1rem 0;'>", unsafe_allow_html=True)
+    
+    # 2. LINKS DE NAVEGACIÓN
+    for p in pages:
+        st.sidebar.page_link(p, label=p.title, icon=p.icon)
+    
     st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0 0.5rem 0;'>", unsafe_allow_html=True)
     
-    # Render footer sidebar elements (Below Navigation)
+    # 3. IDIOMA Y USUARIO
     current_lang_idx = 0 if lang == "es" else 1
     new_lang_pref = st.sidebar.radio(
         i18n.t("Idioma / Language", lang), 
@@ -200,22 +203,19 @@ def main():
         key="lang_selector"
     )
     
-    new_lang_code = "es" if new_lang_pref == "Español" else "en"
-    if new_lang_code != lang:
-        st.session_state["language"] = new_lang_code
+    if ("es" if new_lang_pref == "Español" else "en") != lang:
+        st.session_state["language"] = "es" if new_lang_pref == "Español" else "en"
         st.rerun()
 
     st.sidebar.write(f"{i18n.t('Bienvenido', lang)}, **{st.session_state.get('name', '')}**")
     
-    # Boton de logout
     if st.sidebar.button(i18n.t("Cerrar Sesión", lang)):
         st.session_state["logged_in"] = False
-        st.session_state.clear() # Limpiamos toda la sesion
+        st.session_state.clear()
         st.rerun()
         
-    # Separador 3: Al final de la barra
     st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0 0.5rem 0;'>", unsafe_allow_html=True)
-            
+             
     # Ejecutar la pagina seleccionada
     pg.run()
 

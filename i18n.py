@@ -37,9 +37,16 @@ TRANSLATIONS = {
     "Logistica": "Logistics",
     "Agro-Industrial ": "Agro-Industrial",
     "Servicios de Seguridad": "Security Services",
+    "Alimentos": "Food",
+    "Turismo e Industrial": "Tourism & Industrial",
+    "Servicios - Petróleo": "Oilfield Services",
+    "Logistica y Almacenamiento": "Logistics & Storage",
     "Ganadero": "Livestock",
     "Lacteos": "Dairy",
     "Agroindustria / Producción de alimentos": "Agribusiness / Food Production",
+    "Minería y Metalurgia (hierro, escandio, sílice)": "Mining and Metallurgy (iron, scandium, silica)",
+    "Agropecuaria de producción avícola": "Poultry Farming",
+    "Industria alimentaria de procesamiento de carnes": "Meat Processing Food Industry",
     
     # Asset Types (Dynamic Values)
     "Compra total": "Full Acquisition",

@@ -111,15 +111,15 @@ else:
 col_main, col_side = st.columns([1.5, 1])
 
 with col_main:
-    st.markdown("### 📁 Información Detallada del Proyecto")
+    st.markdown(f"### 📁 {i18n.t('Información Detallada del Proyecto', lang)}")
     
     # A. IDENTIFICACIÓN GENERAL
     with st.expander(i18n.t("A. IDENTIFICACIÓN GENERAL", lang)):
-        st.write(f"**Nombre de la oportunidad:** {row.get('Nombre de la oportunidad', 'N/A')}")
-        st.write(f"**Sector / Industria:** {row.get('Sector / Industria', 'N/A')}")
-        st.write(f"**Ubicación (Región – Ciudad):** {row.get('Ubicación (Región – Ciudad)', 'N/A')}")
-        st.write(f"**Fecha de evaluación:** {row.get('Fecha de evaluación', 'N/A')}")
-        st.write(f"**Elaborado por:** {row.get('Elaborado por', 'N/A')}")
+        st.write(f"**{i18n.t('Nombre de la oportunidad', lang)}:** {row.get('Nombre de la oportunidad', 'N/A')}")
+        st.write(f"**{i18n.t('Sector / Industria', lang)}:** {row.get('Sector / Industria', 'N/A')}")
+        st.write(f"**{i18n.t('Ubicación (Región – Ciudad)', lang)}:** {row.get('Ubicación (Región – Ciudad)', 'N/A')}")
+        st.write(f"**{i18n.t('Fecha de evaluación', lang)}:** {row.get('Fecha de evaluación', 'N/A')}")
+        st.write(f"**{i18n.t('Elaborado por', lang)}:** {row.get('Elaborado por', 'N/A')}")
 
     # B. DESCRIPCIÓN EJECUTIVA DE LA OPORTUNIDAD
     with st.expander(i18n.t("B. DESCRIPCIÓN EJECUTIVA DE LA OPORTUNIDAD", lang), expanded=True):
@@ -143,72 +143,72 @@ with col_main:
 
     # D. INDICADORES FINANCIEROS
     with st.expander(i18n.t("D. INDICADORES FINANCIEROS (Rangos Esperados)", lang)):
-        st.write(f"**TIR (%):** {row.get('TIR (%)', 'N/A')}")
-        st.write(f"**VPN (MMUSD):** {row.get('VPN (MMUSD)', 'N/A')}")
-        st.write(f"**Tiempo de recuperación (años):** {row.get('Tiempo de recuperación (años)', 'N/A')}")
-        st.write(f"**Vida útil estimada del proyecto:** {row.get('Vida útil estimada del proyecto', 'N/A')}")
-        st.write(f"**Sensibilidad (escenarios):** {row.get('Sensibilidad (escenarios)', 'N/A')}")
-        st.write(f"**Precio base (MMUSD):** {row.get('Precio base (MMUSD)', 'N/A')}")
-        st.write(f"**Volumen proyectado:** {row.get('Volumen proyectado', 'N/A')}")
-        st.write(f"**CAPEX (MMUSD):** {row.get('CAPEX (MMUSD)', 'N/A')}")
-        st.write(f"**OPEX (MMUSD):** {row.get('OPEX (MMUSD)', 'N/A')}")
-        st.write(f"**Tasa de descuento utilizada:** {row.get('Tasa de descuento utilizada', 'N/A')}")
+        st.write(f"**{i18n.t('TIR (%)', lang)}:** {row.get('TIR (%)', 'N/A')}")
+        st.write(f"**{i18n.t('VPN (MMUSD)', lang)}:** {row.get('VPN (MMUSD)', 'N/A')}")
+        st.write(f"**{i18n.t('Tiempo de recuperación (años)', lang)}:** {row.get('Tiempo de recuperación (años)', 'N/A')}")
+        st.write(f"**{i18n.t('Vida útil estimada del proyecto', lang)}:** {row.get('Vida útil estimada del proyecto', 'N/A')}")
+        st.write(f"**{i18n.t('Sensibilidad (escenarios)', lang)}:** {row.get('Sensibilidad (escenarios)', 'N/A')}")
+        st.write(f"**{i18n.t('Precio base (MMUSD)', lang)}:** {row.get('Precio base (MMUSD)', 'N/A')}")
+        st.write(f"**{i18n.t('Volumen proyectado', lang)}:** {row.get('Volumen proyectado', 'N/A')}")
+        st.write(f"**{i18n.t('CAPEX (MMUSD)', lang)}:** {row.get('CAPEX (MMUSD)', 'N/A')}")
+        st.write(f"**{i18n.t('OPEX (MMUSD)', lang)}:** {row.get('OPEX (MMUSD)', 'N/A')}")
+        st.write(f"**{i18n.t('Tasa de descuento utilizada', lang)}:** {row.get('Tasa de descuento utilizada', 'N/A')}")
 
     # E. ESTUDIO DE MERCADO
     with st.expander(i18n.t("E. ESTUDIO DE MERCADO", lang)):
-        st.write(f"**Demanda identificada:** {row.get('Demanda identificada', 'N/A')}")
-        st.write(f"**Segmento objetivo:** {row.get('Segmento objetivo', 'N/A')}")
-        st.write(f"**Competencia relevante:** {row.get('Competencia relevante', 'N/A')}")
-        st.write(f"**Barreras de entrada:** {row.get('Barreras de entrada', 'N/A')}")
-        st.write(f"**Ventana de oportunidad (timing):** {row.get('Ventana de oportunidad (timing)', 'N/A')}")
-        st.write(f"**Conclusión del estudio de mercado:** {row.get('Conclusión del estudio de mercado', 'N/A')}")
+        st.write(f"**{i18n.t('Demanda identificada', lang)}:** {row.get('Demanda identificada', 'N/A')}")
+        st.write(f"**{i18n.t('Segmento objetivo', lang)}:** {row.get('Segmento objetivo', 'N/A')}")
+        st.write(f"**{i18n.t('Competencia relevante', lang)}:** {row.get('Competencia relevante', 'N/A')}")
+        st.write(f"**{i18n.t('Barreras de entrada', lang)}:** {row.get('Barreras de entrada', 'N/A')}")
+        st.write(f"**{i18n.t('Ventana de oportunidad (timing)', lang)}:** {row.get('Ventana de oportunidad (timing)', 'N/A')}")
+        st.write(f"**{i18n.t('Conclusión del estudio de mercado', lang)}:** {row.get('Conclusión del estudio de mercado', 'N/A')}")
 
     # F. PROBABILIDAD Y FIRMEZA DE LA OPORTUNIDAD
     with st.expander(i18n.t("F. PROBABILIDAD Y FIRMEZA DE LA OPORTUNIDAD", lang)):
-        st.write(f"**Probabilidad estimada de concreción (%):** {row.get('Probabilidad estimada de concreción (%)', 'N/A')}")
-        st.write(f"**Nivel de firmeza:** {row.get('Nivel de firmeza', 'N/A')}")
-        st.write(f"**Factores críticos para cierre:** {row.get('Factores críticos para cierre', 'N/A')}")
-        st.write(f"**Dependencias externas:** {row.get('Dependencias externas', 'N/A')}")
+        st.write(f"**{i18n.t('Probabilidad estimada de concreción (%)', lang)}:** {row.get('Probabilidad estimada de concreción (%)', 'N/A')}")
+        st.write(f"**{i18n.t('Nivel de firmeza', lang)}:** {row.get('Nivel de firmeza', 'N/A')}")
+        st.write(f"**{i18n.t('Factores críticos para cierre', lang)}:** {row.get('Factores críticos para cierre', 'N/A')}")
+        st.write(f"**{i18n.t('Dependencias externas', lang)}:** {row.get('Dependencias externas', 'N/A')}")
 
     # G. ANÁLISIS DE RIESGO
     with st.expander(i18n.t("G. ANÁLISIS DE RIESGO", lang)):
-        st.write(f"**Nivel de riesgo global:** {row.get('Nivel de riesgo global', 'N/A')}")
-        st.write(f"**Riesgo Técnico:** {row.get('Riesgo Técnico', 'N/A')}")
-        st.write(f"**Mitigaciones Riesgo Técnico:** {row.get('Mitigaciones Riesgo Técnico', 'N/A')}")
-        st.write(f"**Riesgo Financiero:** {row.get('Riesgo Financiero', 'N/A')}")
-        st.write(f"**Mitigaciones Riesgo Financiero:** {row.get('Mitigaciones Riesgo Financiero', 'N/A')}")
-        st.write(f"**Riesgo Regulatorio:** {row.get('Riesgo Regulatorio', 'N/A')}")
-        st.write(f"**Mitigación Riesgo Regulatorio:** {row.get('Mitigación Riesgo Regulatorio', 'N/A')}")
-        st.write(f"**Riesgo Mercado:** {row.get('Riesgo Mercado', 'N/A')}")
-        st.write(f"**Mitigación Riesgo Mercado:** {row.get('Mitigación Riesgo Mercado', 'N/A')}")
+        st.write(f"**{i18n.t('Nivel de riesgo global', lang)}:** {row.get('Nivel de riesgo global', 'N/A')}")
+        st.write(f"**{i18n.t('Riesgo Técnico', lang)}:** {row.get('Riesgo Técnico', 'N/A')}")
+        st.write(f"**{i18n.t('Mitigaciones Riesgo Técnico', lang)}:** {row.get('Mitigaciones Riesgo Técnico', 'N/A')}")
+        st.write(f"**{i18n.t('Riesgo Financiero', lang)}:** {row.get('Riesgo Financiero', 'N/A')}")
+        st.write(f"**{i18n.t('Mitigaciones Riesgo Financiero', lang)}:** {row.get('Mitigaciones Riesgo Financiero', 'N/A')}")
+        st.write(f"**{i18n.t('Riesgo Regulatorio', lang)}:** {row.get('Riesgo Regulatorio', 'N/A')}")
+        st.write(f"**{i18n.t('Mitigación Riesgo Regulatorio', lang)}:** {row.get('Mitigación Riesgo Regulatorio', 'N/A')}")
+        st.write(f"**{i18n.t('Riesgo Mercado', lang)}:** {row.get('Riesgo Mercado', 'N/A')}")
+        st.write(f"**{i18n.t('Mitigación Riesgo Mercado', lang)}:** {row.get('Mitigación Riesgo Mercado', 'N/A')}")
 
     # H. ENTORNO Y SERVICIOS CONEXOS
     with st.expander(i18n.t("H. ENTORNO Y SERVICIOS CONEXOS", lang)):
-        st.write(f"**Servicio Energía Estimado (USD):** {row.get('Servicio Energía Estimado (USD)', 'N/A')}")
-        st.write(f"**Servicio Agua Estimado (USD):** {row.get('Servicio Agua Estimado (USD)', 'N/A')}")
-        st.write(f"**Servicio Gas Estimado (USD):** {row.get('Servicio Gas Estimado (USD)', 'N/A')}")
-        st.write(f"**Costo de vida en la zona:** {row.get('Costo de vida en la zona', 'N/A')}")
-        st.write(f"**Acceso a educación:** {row.get('Acceso a educación', 'N/A')}")
-        st.write(f"**Infraestructura logística:** {row.get('Infraestructura logística', 'N/A')}")
-        st.write(f"**Disponibilidad de talento humano:** {row.get('Disponibilidad de talento humano', 'N/A')}")
+        st.write(f"**{i18n.t('Servicio Energía Estimado (USD)', lang)}:** {row.get('Servicio Energía Estimado (USD)', 'N/A')}")
+        st.write(f"**{i18n.t('Servicio Agua Estimado (USD)', lang)}:** {row.get('Servicio Agua Estimado (USD)', 'N/A')}")
+        st.write(f"**{i18n.t('Servicio Gas Estimado (USD)', lang)}:** {row.get('Servicio Gas Estimado (USD)', 'N/A')}")
+        st.write(f"**{i18n.t('Costo de vida en la zona', lang)}:** {row.get('Costo de vida en la zona', 'N/A')}")
+        st.write(f"**{i18n.t('Acceso a educación', lang)}:** {row.get('Acceso a educación', 'N/A')}")
+        st.write(f"**{i18n.t('Infraestructura logística', lang)}:** {row.get('Infraestructura logística', 'N/A')}")
+        st.write(f"**{i18n.t('Disponibilidad de talento humano', lang)}:** {row.get('Disponibilidad de talento humano', 'N/A')}")
         
     # I. CONCLUSIÓN Y RECOMENDACIÓN
     with st.expander(i18n.t("I. CONCLUSIÓN Y RECOMENDACIÓN", lang)):
-        st.write(f"**Evaluación integral:** {row.get('Evaluación integral', 'N/A')}")
-        st.write(f"**Recomendación:** {row.get('Recomendación', 'N/A')}")
-        st.write(f"**Próximos pasos:** {row.get('Próximos pasos', 'N/A')}")
-        st.write(f"**Fecha estimada de decisión final:** {row.get('Fecha estimada de decisión final', 'N/A')}")
+        st.write(f"**{i18n.t('Evaluación integral', lang)}:** {row.get('Evaluación integral', 'N/A')}")
+        st.write(f"**{i18n.t('Recomendación', lang)}:** {row.get('Recomendación', 'N/A')}")
+        st.write(f"**{i18n.t('Próximos pasos', lang)}:** {row.get('Próximos pasos', 'N/A')}")
+        st.write(f"**{i18n.t('Fecha estimada de decisión final', lang)}:** {row.get('Fecha estimada de decisión final', 'N/A')}")
 
     # J. DATOS DEL CONTACTO PRINCIPAL
     with st.expander(i18n.t("J. DATOS DEL CONTACTO PRINCIPAL", lang)):
-        st.write(f"**Nombre:** {row.get('Nombre', 'N/A')}")
-        st.write(f"**Cargo:** {row.get('Cargo', 'N/A')}")
-        st.write(f"**Empresa:** {row.get('Empresa', 'N/A')}")
-        st.write(f"**Teléfono:** {row.get('Teléfono', 'N/A')}")
-        st.write(f"**Correo:** {row.get('Correo', 'N/A')}")
+        st.write(f"**{i18n.t('Nombre', lang)}:** {row.get('Nombre', 'N/A')}")
+        st.write(f"**{i18n.t('Cargo', lang)}:** {row.get('Cargo', 'N/A')}")
+        st.write(f"**{i18n.t('Empresa', lang)}:** {row.get('Empresa', 'N/A')}")
+        st.write(f"**{i18n.t('Teléfono', lang)}:** {row.get('Teléfono', 'N/A')}")
+        st.write(f"**{i18n.t('Correo', lang)}:** {row.get('Correo', 'N/A')}")
 
 with col_side:
-    st.markdown("<h3 style='margin-top: 0;'>💵 Financial Overview</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='margin-top: 0;'>💵 {i18n.t('Financial Overview', lang)}</h3>", unsafe_allow_html=True)
     
     # -- Tarjeta TIR --
     tir_val = row.get('TIR (%)', 'N/A')

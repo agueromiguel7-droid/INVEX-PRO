@@ -69,8 +69,10 @@ from streamlit_gsheets import GSheetsConnection
 import bcrypt
 import pandas as pd
 from datetime import datetime
+import i18n
 
 def login():
+    lang = st.session_state.get("language", "es")
     d1, col, d2 = st.columns([1, 1.2, 1])
     with col:
         # Intenta cargar el logo si existe
@@ -79,13 +81,13 @@ def login():
             with c2:
                 st.image("mi_logo.png", use_container_width=True)
             
-        st.markdown("<h2 style='text-align: center;'>Acceso a Invex Pro</h2>", unsafe_allow_html=True)
-        st.write("Por favor, introduce tus credenciales para acceder al portafolio de inversiones.")
+        st.markdown(f"<h2 style='text-align: center;'>{i18n.t('Acceso a Invex Pro', lang)}</h2>", unsafe_allow_html=True)
+        st.write(i18n.t("Por favor, introduce tus credenciales para acceder al portafolio de inversiones.", lang))
         
         with st.form("login_form"):
-            username = st.text_input("Usuario")
-            password = st.text_input("Contraseña", type="password")
-            submitted = st.form_submit_button("Ingresar")
+            username = st.text_input(i18n.t("Usuario", lang))
+            password = st.text_input(i18n.t("Contraseña", lang), type="password")
+            submitted = st.form_submit_button(i18n.t("Ingresar", lang))
             
             if submitted:
                 try:
@@ -141,9 +143,9 @@ def login():
                         st.session_state["name"] = str(user_record.get('name', username))
                         st.rerun()
                     else:
-                        st.error("Credenciales incorrectas")
+                        st.error(i18n.t("Credenciales incorrectas", lang))
                 else:
-                    st.error("Credenciales incorrectas")
+                    st.error(i18n.t("Credenciales incorrectas", lang))
 
 def main():
     inyectar_css()
@@ -151,45 +153,66 @@ def main():
     # Inicializar el estado de sesion
     if "logged_in" not in st.session_state:
         st.session_state["logged_in"] = False
+        
+    if "language" not in st.session_state:
+        st.session_state["language"] = "es"
+        
+    lang = st.session_state["language"]
 
     if not st.session_state["logged_in"]:
         ocultar_sidebar()
         # Si no esta loggeado, usar st.navigation unicamente con la pagina de login
-        login_pg = st.Page(login, title="Acceder a Invex Pro", icon="🔐")
+        login_pg = st.Page(login, title=i18n.t("Acceso a Invex Pro", lang), icon="🔐")
         pg = st.navigation([login_pg])
         pg.run()
         return
         
     # Navegacion condicional (Usuario loggeado)
-    st.sidebar.title("Invex Pro")
-    if os.path.exists("mi_logo.png"):
-        c1, c2, c3 = st.sidebar.columns([1, 3, 1])
-        with c2:
-            st.image("mi_logo.png", use_container_width=True)
-        
-    st.sidebar.write(f"Bienvenido, **{st.session_state.get('name', '')}**")
-    
     # Declarar paginas disponibles
     pages = []
     
     # Paginas para Inversor (y Admin)
-    pages.append(st.Page("views/1_Galeria_de_Inversiones.py", title="Galería de Inversiones", icon="📊"))
-    pages.append(st.Page("views/4_Analisis_Comparativo.py", title="Análisis Comparativo", icon="📈"))
-    pages.append(st.Page("views/3_Detalle_Proyecto.py", title="Detalle de Proyecto", icon="📑"))
+    pages.append(st.Page("views/1_Galeria_de_Inversiones.py", title=i18n.t("Galería de Inversiones", lang), icon="📊"))
+    pages.append(st.Page("views/4_Analisis_Comparativo.py", title=i18n.t("Análisis Comparativo", lang), icon="📈"))
+    pages.append(st.Page("views/3_Detalle_Proyecto.py", title=i18n.t("Detalle de Proyecto", lang), icon="📑"))
     
     # Paginas exclusivas de Admin
     if st.session_state.get("role") == "admin":
-        pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title="Gestor de Proyectos", icon="🛠️"))
+        pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title=i18n.t("Gestor de Proyectos", lang), icon="🛠️"))
     
     # Renderizar el menu lateral
     pg = st.navigation(pages)
     
+    # Render footer sidebar elements (Below Navigation)
+    current_lang_idx = 0 if lang == "es" else 1
+    new_lang_pref = st.sidebar.radio(
+        i18n.t("Idioma / Language", lang), 
+        ["Español", "English"], 
+        index=current_lang_idx,
+        key="lang_selector"
+    )
+    
+    new_lang_code = "es" if new_lang_pref == "Español" else "en"
+    if new_lang_code != lang:
+        st.session_state["language"] = new_lang_code
+        st.rerun()
+
+    st.sidebar.write(f"{i18n.t('Bienvenido', lang)}, **{st.session_state.get('name', '')}**")
+    
     # Boton de logout
-    if st.sidebar.button("Cerrar Sesión"):
+    if st.sidebar.button(i18n.t("Cerrar Sesión", lang)):
         st.session_state["logged_in"] = False
         st.session_state.clear() # Limpiamos toda la sesion
         st.rerun()
         
+    # Logo and App Name
+    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0;'>", unsafe_allow_html=True)
+    st.sidebar.markdown(f"<h2 style='text-align: center; margin-bottom: 0.5rem;'>{i18n.t('Invex Pro', lang)}</h2>", unsafe_allow_html=True)
+    if os.path.exists("mi_logo.png"):
+        c1, c2, c3 = st.sidebar.columns([1.5, 2, 1.5])
+        with c2:
+            st.image("mi_logo.png", use_container_width=True)
+            
     # Ejecutar la pagina seleccionada
     pg.run()
 

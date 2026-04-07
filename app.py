@@ -4,7 +4,7 @@ import os
 
 # Configuracion de pagina
 st.set_page_config(
-    page_title="Invex Pro",
+    page_title="INVEX Pro",
     page_icon="mi_logo.png",
     layout="wide",
     initial_sidebar_state="collapsed"

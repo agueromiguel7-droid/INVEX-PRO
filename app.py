@@ -169,7 +169,6 @@ def main():
         
     # 1. Logo and App Name at the TOP
     if os.path.exists("mi_logo.png"):
-        # Aumentar espacio y tamaño: usando columnas menos anchas a los lados para que el centro sea más grande
         cl1, cl2, cl3 = st.sidebar.columns([0.2, 0.6, 0.2])
         with cl2:
             st.image("mi_logo.png", use_container_width=True)
@@ -177,7 +176,16 @@ def main():
     st.sidebar.markdown(f"<h1 style='text-align: center; color: #144bb8; font-size: 1.8rem; margin-top: -10px;'>{i18n.t('Invex Pro', lang)}</h1>", unsafe_allow_html=True)
     st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 0.5rem 0 1rem 0;'>", unsafe_allow_html=True)
 
-    # 2. Navegacion (Menu de paginas)
+    # 2. Navegación (Menu de paginas)
+    pages = [
+        st.Page("views/1_Galeria_de_Inversiones.py", title=i18n.t("Galería de Inversiones", lang), icon="📊"),
+        st.Page("views/4_Analisis_Comparativo.py", title=i18n.t("Análisis Comparativo", lang), icon="📈"),
+        st.Page("views/3_Detalle_Proyecto.py", title=i18n.t("Detalle de Proyecto", lang), icon="📑"),
+    ]
+    
+    if st.session_state.get("role") == "admin":
+        pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title=i18n.t("Gestor de Proyectos", lang), icon="🛠️"))
+    
     pg = st.navigation(pages)
     
     # Render footer sidebar elements (Below Navigation)

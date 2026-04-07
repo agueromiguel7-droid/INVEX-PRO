@@ -167,20 +167,17 @@ def main():
         pg.run()
         return
         
-    # Navegacion condicional (Usuario loggeado)
-    # Declarar paginas disponibles
-    pages = []
+    # 1. Logo and App Name at the TOP
+    if os.path.exists("mi_logo.png"):
+        # Aumentar espacio y tamaño: usando columnas menos anchas a los lados para que el centro sea más grande
+        cl1, cl2, cl3 = st.sidebar.columns([0.2, 0.6, 0.2])
+        with cl2:
+            st.image("mi_logo.png", use_container_width=True)
     
-    # Paginas para Inversor (y Admin)
-    pages.append(st.Page("views/1_Galeria_de_Inversiones.py", title=i18n.t("Galería de Inversiones", lang), icon="📊"))
-    pages.append(st.Page("views/4_Analisis_Comparativo.py", title=i18n.t("Análisis Comparativo", lang), icon="📈"))
-    pages.append(st.Page("views/3_Detalle_Proyecto.py", title=i18n.t("Detalle de Proyecto", lang), icon="📑"))
-    
-    # Paginas exclusivas de Admin
-    if st.session_state.get("role") == "admin":
-        pages.append(st.Page("views/2_Gestor_de_Proyectos.py", title=i18n.t("Gestor de Proyectos", lang), icon="🛠️"))
-    
-    # Renderizar el menu lateral
+    st.sidebar.markdown(f"<h1 style='text-align: center; color: #144bb8; font-size: 1.8rem; margin-top: -10px;'>{i18n.t('Invex Pro', lang)}</h1>", unsafe_allow_html=True)
+    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 0.5rem 0 1rem 0;'>", unsafe_allow_html=True)
+
+    # 2. Navegacion (Menu de paginas)
     pg = st.navigation(pages)
     
     # Render footer sidebar elements (Below Navigation)
@@ -205,13 +202,8 @@ def main():
         st.session_state.clear() # Limpiamos toda la sesion
         st.rerun()
         
-    # Logo and App Name
-    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0;'>", unsafe_allow_html=True)
-    st.sidebar.markdown(f"<h2 style='text-align: center; margin-bottom: 0.5rem;'>{i18n.t('Invex Pro', lang)}</h2>", unsafe_allow_html=True)
-    if os.path.exists("mi_logo.png"):
-        c1, c2, c3 = st.sidebar.columns([1.5, 2, 1.5])
-        with c2:
-            st.image("mi_logo.png", use_container_width=True)
+    # Separador inferior antes del selector de idioma opcionalmente
+    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0 0.5rem 0;'>", unsafe_allow_html=True)
             
     # Ejecutar la pagina seleccionada
     pg.run()

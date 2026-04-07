@@ -188,6 +188,9 @@ def main():
     
     pg = st.navigation(pages)
     
+    # Separador 2: Debajo de la navegación y ARRIBA del selector de idioma
+    st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0 0.5rem 0;'>", unsafe_allow_html=True)
+    
     # Render footer sidebar elements (Below Navigation)
     current_lang_idx = 0 if lang == "es" else 1
     new_lang_pref = st.sidebar.radio(
@@ -210,7 +213,7 @@ def main():
         st.session_state.clear() # Limpiamos toda la sesion
         st.rerun()
         
-    # Separador inferior antes del selector de idioma opcionalmente
+    # Separador 3: Al final de la barra
     st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0 0.5rem 0;'>", unsafe_allow_html=True)
             
     # Ejecutar la pagina seleccionada

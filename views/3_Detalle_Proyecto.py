@@ -114,7 +114,7 @@ with col_main:
     st.markdown("### 📁 Información Detallada del Proyecto")
     
     # A. IDENTIFICACIÓN GENERAL
-    with st.expander("A. IDENTIFICACIÓN GENERAL"):
+    with st.expander(i18n.t("A. IDENTIFICACIÓN GENERAL", lang)):
         st.write(f"**Nombre de la oportunidad:** {row.get('Nombre de la oportunidad', 'N/A')}")
         st.write(f"**Sector / Industria:** {row.get('Sector / Industria', 'N/A')}")
         st.write(f"**Ubicación (Región – Ciudad):** {row.get('Ubicación (Región – Ciudad)', 'N/A')}")
@@ -122,27 +122,27 @@ with col_main:
         st.write(f"**Elaborado por:** {row.get('Elaborado por', 'N/A')}")
 
     # B. DESCRIPCIÓN EJECUTIVA DE LA OPORTUNIDAD
-    with st.expander("B. DESCRIPCIÓN EJECUTIVA DE LA OPORTUNIDAD", expanded=True):
-        st.info(f"**Resumen:** {row.get('Resumen del negocio / proyecto (máx. 10 líneas)', 'N/A')}")
-        st.write(f"**Tipo de oportunidad:** {row.get('Tipo de oportunidad', 'N/A')}")
-        st.write(f"**Describir Otros:** {row.get('Describir Otros', 'N/A')}")
-        st.write(f"**Alcance del proyecto:** {row.get('Alcance del proyecto', 'N/A')}")
-        st.write(f"**Ventaja competitiva principal:** {row.get('Ventaja competitiva principal', 'N/A')}")
-        st.write(f"**Estado actual de madurez:** {row.get('Estado actual de madurez', 'N/A')}")
+    with st.expander(i18n.t("B. DESCRIPCIÓN EJECUTIVA DE LA OPORTUNIDAD", lang), expanded=True):
+        st.info(f"**{i18n.t('Resumen', lang)}:** {row.get('Resumen del negocio / proyecto (máx. 10 líneas)', 'N/A')}")
+        st.write(f"**{i18n.t('Tipo de oportunidad', lang)}:** {row.get('Tipo de oportunidad', 'N/A')}")
+        st.write(f"**{i18n.t('Describir Otros', lang)}:** {row.get('Describir Otros', 'N/A')}")
+        st.write(f"**{i18n.t('Alcance del proyecto', lang)}:** {row.get('Alcance del proyecto', 'N/A')}")
+        st.write(f"**{i18n.t('Ventaja competitiva principal', lang)}:** {row.get('Ventaja competitiva principal', 'N/A')}")
+        st.write(f"**{i18n.t('Estado actual de madurez', lang)}:** {row.get('Estado actual de madurez', 'N/A')}")
 
     # C. CARACTERÍSTICAS DE LA INVERSIÓN
-    with st.expander("C. CARACTERÍSTICAS DE LA INVERSIÓN"):
-        st.write(f"**Monto de inversión estimado (MMUSD):** {row.get('Monto de inversión estimado (MMUSD)', 'N/A')}")
-        st.write(f"**Tipo de inversión:** {row.get('Tipo de inversión', 'N/A')}")
-        st.write(f"**Clase de estimación:** {row.get('Clase de estimación (Si es proyecto nuevo)', 'N/A')}")
-        st.write(f"**% Participación inversionista:** {row.get('% Participación inversionista', 'N/A')}")
-        st.write(f"**% Participación socios actuales:** {row.get('% Participación socios actuales', 'N/A')}")
-        st.write(f"**Tipo de acuerdo(si aplica):** {row.get('Tipo de acuerdo', 'N/A')}")
-        st.write(f"**¿Compra total o parcial?:** {row.get('¿Compra total o parcial?', 'N/A')}")
-        st.write(f"**% de adquisición:** {row.get('% de adquisición', 'N/A')}")
+    with st.expander(i18n.t("C. CARACTERÍSTICAS DE LA INVERSIÓN", lang)):
+        st.write(f"**{i18n.t('Monto de inversión estimado (MMUSD)', lang)}:** {row.get('Monto de inversión estimado (MMUSD)', 'N/A')}")
+        st.write(f"**{i18n.t('Tipo de inversión', lang)}:** {row.get('Tipo de inversión', 'N/A')}")
+        st.write(f"**{i18n.t('Clase de estimación', lang)}:** {row.get('Clase de estimación (Si es proyecto nuevo)', 'N/A')}")
+        st.write(f"**{i18n.t('% Participación inversionista', lang)}:** {row.get('% Participación inversionista', 'N/A')}")
+        st.write(f"**{i18n.t('% Participación socios actuales', lang)}:** {row.get('% Participación socios actuales', 'N/A')}")
+        st.write(f"**{i18n.t('Tipo de acuerdo(si aplica)', lang)}:** {row.get('Tipo de acuerdo', 'N/A')}")
+        st.write(f"**{i18n.t('¿Compra total o parcial?', lang)}:** {row.get('¿Compra total o parcial?', 'N/A')}")
+        st.write(f"**{i18n.t('% de adquisición', lang)}:** {row.get('% de adquisición', 'N/A')}")
 
     # D. INDICADORES FINANCIEROS
-    with st.expander("D. INDICADORES FINANCIEROS (Rangos Esperados)"):
+    with st.expander(i18n.t("D. INDICADORES FINANCIEROS (Rangos Esperados)", lang)):
         st.write(f"**TIR (%):** {row.get('TIR (%)', 'N/A')}")
         st.write(f"**VPN (MMUSD):** {row.get('VPN (MMUSD)', 'N/A')}")
         st.write(f"**Tiempo de recuperación (años):** {row.get('Tiempo de recuperación (años)', 'N/A')}")
@@ -155,7 +155,7 @@ with col_main:
         st.write(f"**Tasa de descuento utilizada:** {row.get('Tasa de descuento utilizada', 'N/A')}")
 
     # E. ESTUDIO DE MERCADO
-    with st.expander("E. ESTUDIO DE MERCADO"):
+    with st.expander(i18n.t("E. ESTUDIO DE MERCADO", lang)):
         st.write(f"**Demanda identificada:** {row.get('Demanda identificada', 'N/A')}")
         st.write(f"**Segmento objetivo:** {row.get('Segmento objetivo', 'N/A')}")
         st.write(f"**Competencia relevante:** {row.get('Competencia relevante', 'N/A')}")
@@ -164,14 +164,14 @@ with col_main:
         st.write(f"**Conclusión del estudio de mercado:** {row.get('Conclusión del estudio de mercado', 'N/A')}")
 
     # F. PROBABILIDAD Y FIRMEZA DE LA OPORTUNIDAD
-    with st.expander("F. PROBABILIDAD Y FIRMEZA DE LA OPORTUNIDAD"):
+    with st.expander(i18n.t("F. PROBABILIDAD Y FIRMEZA DE LA OPORTUNIDAD", lang)):
         st.write(f"**Probabilidad estimada de concreción (%):** {row.get('Probabilidad estimada de concreción (%)', 'N/A')}")
         st.write(f"**Nivel de firmeza:** {row.get('Nivel de firmeza', 'N/A')}")
         st.write(f"**Factores críticos para cierre:** {row.get('Factores críticos para cierre', 'N/A')}")
         st.write(f"**Dependencias externas:** {row.get('Dependencias externas', 'N/A')}")
 
     # G. ANÁLISIS DE RIESGO
-    with st.expander("G. ANÁLISIS DE RIESGO"):
+    with st.expander(i18n.t("G. ANÁLISIS DE RIESGO", lang)):
         st.write(f"**Nivel de riesgo global:** {row.get('Nivel de riesgo global', 'N/A')}")
         st.write(f"**Riesgo Técnico:** {row.get('Riesgo Técnico', 'N/A')}")
         st.write(f"**Mitigaciones Riesgo Técnico:** {row.get('Mitigaciones Riesgo Técnico', 'N/A')}")
@@ -183,7 +183,7 @@ with col_main:
         st.write(f"**Mitigación Riesgo Mercado:** {row.get('Mitigación Riesgo Mercado', 'N/A')}")
 
     # H. ENTORNO Y SERVICIOS CONEXOS
-    with st.expander("H. ENTORNO Y SERVICIOS CONEXOS"):
+    with st.expander(i18n.t("H. ENTORNO Y SERVICIOS CONEXOS", lang)):
         st.write(f"**Servicio Energía Estimado (USD):** {row.get('Servicio Energía Estimado (USD)', 'N/A')}")
         st.write(f"**Servicio Agua Estimado (USD):** {row.get('Servicio Agua Estimado (USD)', 'N/A')}")
         st.write(f"**Servicio Gas Estimado (USD):** {row.get('Servicio Gas Estimado (USD)', 'N/A')}")
@@ -193,14 +193,14 @@ with col_main:
         st.write(f"**Disponibilidad de talento humano:** {row.get('Disponibilidad de talento humano', 'N/A')}")
         
     # I. CONCLUSIÓN Y RECOMENDACIÓN
-    with st.expander("I. CONCLUSIÓN Y RECOMENDACIÓN"):
+    with st.expander(i18n.t("I. CONCLUSIÓN Y RECOMENDACIÓN", lang)):
         st.write(f"**Evaluación integral:** {row.get('Evaluación integral', 'N/A')}")
         st.write(f"**Recomendación:** {row.get('Recomendación', 'N/A')}")
         st.write(f"**Próximos pasos:** {row.get('Próximos pasos', 'N/A')}")
         st.write(f"**Fecha estimada de decisión final:** {row.get('Fecha estimada de decisión final', 'N/A')}")
 
     # J. DATOS DEL CONTACTO PRINCIPAL
-    with st.expander("J. DATOS DEL CONTACTO PRINCIPAL"):
+    with st.expander(i18n.t("J. DATOS DEL CONTACTO PRINCIPAL", lang)):
         st.write(f"**Nombre:** {row.get('Nombre', 'N/A')}")
         st.write(f"**Cargo:** {row.get('Cargo', 'N/A')}")
         st.write(f"**Empresa:** {row.get('Empresa', 'N/A')}")

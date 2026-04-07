@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 import pandas as pd
+import streamlit as st
 
 # Translation mapping (Spanish key -> English translation)
 TRANSLATIONS = {
@@ -157,25 +157,39 @@ TRANSLATIONS = {
     "Error conectando con la base de datos de usuarios:": "Error connecting to the users database:",
 }
 
-def t(text, lang="es"):
+@st.cache_data(show_spinner=False)
+def _api_translate(text, target="en"):
+    from deep_translator import GoogleTranslator
+    try:
+        return GoogleTranslator(source='es', target=target).translate(text)
+    except Exception:
+        return text
+
+def t(text, lang="es", use_api=False):
     """
     Returns the translation of 'text' if 'lang' is 'en' (English).
     Otherwise returns the original text in Spanish.
     Defaults to original if translation is not found.
     """
-    if not text:
+    if not text or pd.isna(text) or str(text).strip() == "" or str(text).strip() == "N/A":
         return text
         
     text_str = str(text).strip()
     
     if str(lang).lower().startswith('en'):
-        return TRANSLATIONS.get(text_str, text)
+        if text_str in TRANSLATIONS:
+            return TRANSLATIONS[text_str]
+        
+        if use_api:
+            return _api_translate(text_str, target="en")
+            
     return text
 
+@st.cache_data(show_spinner=False)
 def translate_df(df, lang="es"):
     """
-    Translates categorical columns within a pandas DataFrame.
-    It translates values based on English language if requested.
+    Translates columns within a pandas DataFrame.
+    It translates categorical values statically and uses AI for extensive texts.
     """
     if str(lang).lower().startswith('es') or df.empty:
         return df
@@ -183,12 +197,23 @@ def translate_df(df, lang="es"):
     # We do a deep copy to avoid replacing original cached DF
     df_trans = df.copy()
 
-    # Columns we know have categorical data that needs translating
+    # Columns we know have categorical data that needs static translating
     cat_columns = ["Sector / Industria", "Tipo de oportunidad", "Nivel de riesgo global"]
+    
+    # Text-heavy columns that require Deep Translation API
+    long_text_columns = [
+        "Resumen del negocio / proyecto (máx. 10 líneas)", 
+        "Ventaja competitiva principal",
+        "Alcance del proyecto"
+    ]
     
     for col in cat_columns:
         if col in df_trans.columns:
-            df_trans[col] = df_trans[col].apply(lambda x: t(x, lang) if pd.notna(x) else x)
+            df_trans[col] = df_trans[col].apply(lambda x: t(x, lang, use_api=False))
+            
+    for col in long_text_columns:
+        if col in df_trans.columns:
+            df_trans[col] = df_trans[col].apply(lambda x: t(x, lang, use_api=True))
             
     # Note: We won't translate the column header names here because the underlying
     # Views rely on exact python dictionary strings to retrieve rows.
